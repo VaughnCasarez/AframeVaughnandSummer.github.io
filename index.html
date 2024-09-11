@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Frame GLTF Model with Free Movement</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <!-- Preload assets -->
+      <a-assets>
+        <a-asset-item id="bonnie" src="fnaf_1_bonnie_by_thudner/untitled.gltf"></a-asset-item>
+        <img id="backgroundImage" src="sunset_background.jpg">
+        <img id="foregroundImage" src="black_foreground.jpg">
+      </a-assets>
+
+      <!-- Add a sky background -->
+      <a-sky color="#ECECEC"></a-sky>
+
+      <a-image src="#foregroundImage" 
+               position="-71 27 -3" 
+               width="120" 
+               height="72">
+      </a-image>
+
+      <a-image src="#foregroundImage" 
+               position="75 27 -3" 
+               width="120" 
+               height="72">
+      </a-image>
+
+      <a-image src="#backgroundImage" 
+               position="-27 27 -15" 
+               width="120" 
+               height="72">
+      </a-image>
+
+      <!-- Add a free-moving camera -->
+      <a-entity id="camera" camera look-controls wasd-controls="acceleration: 10" position="5 18 18">
+        <!-- Add vertical movement (Space for up, Shift for down) -->
+        <a-animation attribute="position"
+                     begin="move-up"
+                     dur="0"
+                     to="0 0.1 0"
+                     repeat="indefinite"
+                     direction="alternate"></a-animation>
+      </a-entity>
+
+      <!-- Add lights to illuminate the model -->
+      <a-light type="ambient" color="#fff"></a-light>
+      <a-light type="directional" position="1 1 0" intensity="1"></a-light>
+
+      <!-- Load the GLTF model using the preloaded asset -->
+      <a-entity gltf-model="#bonnie" 
+                scale="0.5 0.5 0.5" 
+                position="2 0 -3" 
+                rotation="0 45 0">
+      </a-entity>
+    </a-scene>
+
+    <script>
+      AFRAME.registerComponent('vertical-movement', {
+        init: function () {
+          var el = this.el;
+          var position = el.getAttribute('position');
+          document.addEventListener('keydown', function (event) {
+            switch (event.code) {
+              case 'Space':
+                // Move up
+                position.y += 0.1;
+                break;
+              case 'ShiftLeft':
+              case 'ShiftRight':
+                // Move down
+                position.y -= 0.1;
+                break;
+            }
+            el.setAttribute('position', position);
+          });
+        }
+      });
+
+      // Apply the vertical movement component to the camera
+      document.querySelector('#camera').setAttribute('vertical-movement', '');
+    </script>
+  </body>
+</html>
