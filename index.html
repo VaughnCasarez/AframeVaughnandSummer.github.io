@@ -11,6 +11,7 @@
       <!-- Preload assets -->
       <a-assets>
         <a-asset-item id="bonnie" src="fnaf_1_bonnie_by_thudner/untitled.gltf"></a-asset-item>
+        <a-asset-item id="cloudModel" src="cloud/cloud.gltf"></a-asset-item>
         <img id="backgroundImage" src="sunset_background.jpg">
         <img id="foregroundImage" src="black_foreground.jpg">
       </a-assets>
@@ -56,6 +57,11 @@
                 scale="0.5 0.5 0.5" 
                 position="2 0 -3" 
                 rotation="0 45 0">
+      </a-entity>
+
+      <a-entity gltf-model="#cloudModel" 
+          position="2 0 -3" 
+          scale="15 15 15">
       </a-entity>
     </a-scene>
 
